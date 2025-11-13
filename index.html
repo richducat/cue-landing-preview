@@ -258,11 +258,31 @@
     const menuToggle = document.getElementById('menuToggle');
     const primaryNav = document.getElementById('primary-nav');
     if (menuToggle && primaryNav) {
-      const navLinks = primaryNav.querySelectorAll('a');
+      const navLinks = Array.from(primaryNav.querySelectorAll('a'));
+      const mobileQuery = window.matchMedia('(max-width: 600px)');
+      const syncMenuAccessibility = () => {
+        const shouldHide = !primaryNav.classList.contains('open') && mobileQuery.matches;
+        primaryNav.setAttribute('aria-hidden', shouldHide ? 'true' : 'false');
+        navLinks.forEach((link) => {
+          if (shouldHide) {
+            link.setAttribute('tabindex', '-1');
+          } else {
+            link.removeAttribute('tabindex');
+          }
+        });
+      };
       const setMenuState = (open) => {
         primaryNav.classList.toggle('open', open);
         menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        syncMenuAccessibility();
       };
+      const handleViewportChange = () => syncMenuAccessibility();
+      if (mobileQuery.addEventListener) {
+        mobileQuery.addEventListener('change', handleViewportChange);
+      } else if (mobileQuery.addListener) {
+        mobileQuery.addListener(handleViewportChange);
+      }
+      setMenuState(false);
       menuToggle.addEventListener('click', () => {
         const isOpen = !primaryNav.classList.contains('open');
         setMenuState(isOpen);
