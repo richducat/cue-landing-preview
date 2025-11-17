@@ -19,18 +19,12 @@
       --bg:#0a0a0a; --card:rgba(255,255,255,0.06); --text:#f5f5f5; --muted:rgba(255,255,255,0.75);
       --line:rgba(255,255,255,0.12); --accent:#ff7a1a; --pill:rgba(255,255,255,0.08);
     }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;min-height:100vh}
-    a{color:var(--text);text-decoration:none}
-    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(8px);background:rgba(0,0,0,.6);border-bottom:1px solid var(--line)}
-    .wrap{max-width:1120px;margin:0 auto;padding:0 20px;width:100%}
-    .row{display:flex;align-items:center;justify-content:space-between;min-height:64px}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    a{color:var(--text);text-decoration:none} header{position:sticky;top:0;z-index:10;backdrop-filter:blur(8px);background:rgba(0,0,0,.6);border-bottom:1px solid var(--line)}
+    .wrap{max-width:1120px;margin:0 auto;padding:0 20px} .row{display:flex;align-items:center;justify-content:space-between;height:64px}
     header .row{flex-wrap:wrap;gap:16px}
-    .brand{display:flex;align-items:center;gap:10px;min-width:0}
-    .logo{width:32px;height:32px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.5);object-fit:cover}
-    nav{display:flex;align-items:center;gap:12px}
-    nav a{color:rgba(255,255,255,.85)}
-    nav a.cta{background:var(--accent);color:#000;padding:8px 12px;border-radius:14px;font-weight:600}
+    .brand{display:flex;align-items:center;gap:10px} .logo{width:32px;height:32px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.5);object-fit:cover}
+    nav a{margin-left:16px;color:rgba(255,255,255,.85)} nav a.cta{background:var(--accent);color:#000;padding:8px 12px;border-radius:14px;font-weight:600}
     .menu-toggle{display:none;align-items:center;gap:6px;background:var(--pill);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:12px;font-weight:600;cursor:pointer}
     .menu-toggle svg{width:18px;height:18px;fill:currentColor}
     .header-cta{display:none;margin-left:auto}
@@ -77,14 +71,39 @@
   </style>
   <!-- Additional responsive styles for compact screens -->
   <style>
-    @media (max-width: 900px) {
+    /* On screens up to 600px wide, stack columns and adjust layout */
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 0;
+        gap: 8px;
+      }
       header .row {
         align-items: stretch;
         gap: 12px;
       }
+      header .row > * {
+        width: 100%;
+        flex-shrink: 0;
+      }
+      .brand {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .brand img {
+        margin-bottom: 0;
+      }
+      .features {
+        flex-direction: column !important;
+      }
       .menu-toggle {
         display: inline-flex;
         margin-left: auto;
+        align-self: flex-end;
+      }
+      header .row > .menu-toggle {
+        width: auto;
       }
       header nav {
         width: 100%;
@@ -107,7 +126,8 @@
         opacity: 1;
         visibility: visible;
       }
-      header nav a {
+      nav a {
+        margin-left: 0;
         width: 100%;
         display: inline-flex;
         justify-content: flex-start;
@@ -321,7 +341,7 @@
     const primaryNav = document.getElementById('primary-nav');
     if (menuToggle && primaryNav) {
       const navLinks = Array.from(primaryNav.querySelectorAll('a'));
-      const mobileQuery = window.matchMedia('(max-width: 900px)');
+      const mobileQuery = window.matchMedia('(max-width: 600px)');
       const syncMenuAccessibility = () => {
         const shouldHide = !primaryNav.classList.contains('open') && mobileQuery.matches;
         primaryNav.setAttribute('aria-hidden', shouldHide ? 'true' : 'false');
