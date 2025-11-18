@@ -19,34 +19,26 @@
       --bg:#0a0a0a; --card:rgba(255,255,255,0.06); --text:#f5f5f5; --muted:rgba(255,255,255,0.75);
       --line:rgba(255,255,255,0.12); --accent:#ff7a1a; --pill:rgba(255,255,255,0.08);
     }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;min-height:100vh;overflow-x:hidden}
-    a{color:var(--text);text-decoration:none}
-    img{max-width:100%;height:auto}
-    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(8px);background:rgba(0,0,0,.6);border-bottom:1px solid var(--line)}
-    .wrap{max-width:1320px;margin:0 auto;padding:0 clamp(12px,3vw,18px);width:100%;overflow:hidden}
-    .row{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:16px;flex-wrap:wrap;width:100%}
-    header .row{flex-wrap:wrap}
-    .brand{display:flex;align-items:center;gap:10px;min-width:0}
-    .logo{width:32px;height:32px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.5);object-fit:cover}
-    nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-    nav a{color:rgba(255,255,255,.85)}
-    nav a.cta{background:var(--accent);color:#000;padding:8px 12px;border-radius:14px;font-weight:600}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    a{color:var(--text);text-decoration:none} header{position:sticky;top:0;z-index:10;backdrop-filter:blur(8px);background:rgba(0,0,0,.6);border-bottom:1px solid var(--line)}
+    .wrap{max-width:1120px;margin:0 auto;padding:0 20px} .row{display:flex;align-items:center;justify-content:space-between;height:64px}
+    header .row{flex-wrap:wrap;gap:16px}
+    .brand{display:flex;align-items:center;gap:10px} .logo{width:32px;height:32px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.5);object-fit:cover}
+    nav a{margin-left:16px;color:rgba(255,255,255,.85)} nav a.cta{background:var(--accent);color:#000;padding:8px 12px;border-radius:14px;font-weight:600}
     .menu-toggle{display:none;align-items:center;gap:6px;background:var(--pill);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:12px;font-weight:600;cursor:pointer}
     .menu-toggle svg{width:18px;height:18px;fill:currentColor}
     .header-cta{display:none;margin-left:auto}
     main{padding:28px 0 40px}
     .hero-grid{display:grid;gap:24px;grid-template-columns:1fr;width:100%}
-    .hero-grid>*{min-width:0}
     @media(min-width:980px){.hero-grid{grid-template-columns:minmax(0,1.2fr) minmax(340px,0.8fr);align-items:start}}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;width:100%;max-width:100%}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;width:100%}
     .app-identity{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
     .app-icon{width:96px;height:96px;border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.5);object-fit:cover}
     .muted{color:var(--muted)}
     .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:18px;border:1px solid var(--line);font-weight:600;background:transparent;color:var(--text);cursor:pointer}
     .btn.primary{background:var(--accent);color:#000;border:none}
     .rail{overflow-x:auto;padding:8px 0;scroll-snap-type:x mandatory;margin:0;scrollbar-width:thin;width:100%}
-    .shots{display:flex;gap:12px;width:100%;max-width:1320px;min-width:0;justify-content:flex-start}
+    .shots{display:flex;gap:12px;min-width:max-content;max-width:1320px;width:100%}
     .shot{width:220px;height:480px;max-width:100%;border-radius:22px;background:#0f0f14;border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.5);object-fit:cover;scroll-snap-align:start}
     h1{font-size:28px;margin:0 0 6px;line-height:1.2}
     h2{font-size:18px;margin:0 0 8px}
@@ -56,7 +48,6 @@
     @media(min-width:820px){.features{grid-template-columns:repeat(3,1fr)}}
     .stack{display:flex;flex-direction:column;gap:10px}
     .pricing-panel{width:100%;max-width:1320px;margin:0 auto}
-    .pricing-panel .card{max-width:760px;margin:0 auto;width:100%}
     @media(min-width:980px){.pricing-panel .card{position:sticky;top:96px}}
     .field{display:flex;flex-direction:column;gap:6px}
     input[type=email]{background:#0c0c0c;color:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;outline:none}
@@ -80,18 +71,39 @@
   </style>
   <!-- Additional responsive styles for compact screens -->
   <style>
-    @media (max-width: 980px) {
-      .hero-grid {gap:28px}
-      .pricing-panel {order:-1}
-    }
-    @media (max-width: 900px) {
+    /* On screens up to 600px wide, stack columns and adjust layout */
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 0;
+        gap: 8px;
+      }
       header .row {
         align-items: stretch;
         gap: 12px;
       }
+      header .row > * {
+        width: 100%;
+        flex-shrink: 0;
+      }
+      .brand {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .brand img {
+        margin-bottom: 0;
+      }
+      .features {
+        flex-direction: column !important;
+      }
       .menu-toggle {
         display: inline-flex;
         margin-left: auto;
+        align-self: flex-end;
+      }
+      header .row > .menu-toggle {
+        width: auto;
       }
       header nav {
         width: 100%;
@@ -116,7 +128,8 @@
         opacity: 1;
         visibility: visible;
       }
-      header nav a {
+      nav a {
+        margin-left: 0;
         width: 100%;
         display: inline-flex;
         justify-content: flex-start;
@@ -129,12 +142,7 @@
         width: 100%;
         justify-content: center;
       }
-      .wrap {padding: 0 14px;}
-      .hero-grid {width: 100%;}
-      .rail {margin: 0 -6px; padding: 8px 6px;}
-      .shots {max-width: 100%; justify-content: center;}
-      .pricing-panel {max-width: 720px; width: 100%;}
-      .pricing-panel .card {max-width: 640px;}
+      .rail {margin: 0; padding: 8px 10px;}
       .card {padding: 18px;}
     }
     @media (max-width: 640px) {
@@ -144,9 +152,7 @@
       h1 {font-size:24px}
       .hero-grid {gap:20px}
       .btn {width:100%;justify-content:center}
-      .pricing-panel {max-width:100%;}
-      .pricing-panel .card {max-width: 100%;}
-      .plan-option {align-items:flex-start;flex-direction:column}
+      .plan-option {align-items:flex-start}
       .plan-price {align-items:center}
     }
     @media (max-width: 480px) {
@@ -342,7 +348,7 @@
     const primaryNav = document.getElementById('primary-nav');
     if (menuToggle && primaryNav) {
       const navLinks = Array.from(primaryNav.querySelectorAll('a'));
-      const mobileQuery = window.matchMedia('(max-width: 900px)');
+      const mobileQuery = window.matchMedia('(max-width: 600px)');
       const syncMenuAccessibility = () => {
         const shouldHide = !primaryNav.classList.contains('open') && mobileQuery.matches;
         primaryNav.setAttribute('aria-hidden', shouldHide ? 'true' : 'false');
