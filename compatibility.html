@@ -10,37 +10,35 @@
   <meta name="theme-color" content="#FF7A1A">
   <style>
     :root{
-      --bg:#0b0b12;
-      --panel:#11111a;
-      --muted:#c8c8d4;
-      --text:#f8f8ff;
-      --brand:#6b5bff;      /* purple */
-      --brand-2:#b96bff;    /* violet */
-      --orange:#ff7a1a;     /* accent */
+      --bg:#080808;
+      --panel:#0f0f12;
+      --muted:rgba(255,255,255,0.72);
+      --text:#f8f8f8;
+      --accent:#ff7a1a;
+      --accent-2:#ffb240;
       --ok:#22c55e;
       --warn:#f59e0b;
       --bad:#ef4444;
-      --stroke:rgba(255,255,255,.08);
-      --shadow:0 10px 30px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.04) inset;
+      --stroke:rgba(255,255,255,.12);
+      --shadow:0 16px 40px rgba(0,0,0,.4);
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:
-      radial-gradient(1200px 800px at 80% -10%, rgba(107,91,255,.22), transparent 60%),
-      radial-gradient(900px 700px at 10% -20%, rgba(255,122,26,.18), transparent 60%),
-      radial-gradient(800px 600px at -10% 10%, rgba(185,107,255,.12), transparent 60%),
+      radial-gradient(circle at 20% 20%, rgba(255,122,26,.08), transparent 25%),
+      radial-gradient(circle at 80% 0%, rgba(255,122,26,.05), transparent 30%),
       var(--bg);
       color:var(--text);
       font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji}
     a{color:var(--text); text-decoration:none}
     .wrap{max-width:1100px; margin:0 auto; padding:0 20px}
-    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(to bottom, rgba(11,11,18,.9), rgba(11,11,18,.65)); border-bottom:1px solid var(--stroke)}
+    header{position:sticky; top:0; z-index:50; backdrop-filter:blur(8px); background:rgba(0,0,0,.78); border-bottom:1px solid var(--stroke)}
     .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
     .logo{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.3px}
-    .logo-badge{width:32px; height:32px; border-radius:10px; background:conic-gradient(from 210deg, var(--brand), var(--orange), var(--brand)); display:grid; place-items:center; box-shadow:0 8px 24px rgba(107,91,255,.35), 0 8px 24px rgba(255,122,26,.25)}
+    .logo-badge{width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg, var(--accent-2), var(--accent) 50%, #ff5a1a); display:grid; place-items:center; box-shadow:var(--shadow)}
     .logo-badge svg{filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
-    .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 18px; border-radius:12px; border:1px solid var(--stroke); background:linear-gradient(180deg, #1c1c29, #161622); box-shadow:var(--shadow); transition:.25s}
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 18px; border-radius:12px; border:1px solid var(--stroke); background:linear-gradient(180deg, #111, #0c0c10); box-shadow:var(--shadow); transition:.25s}
     .btn:hover{transform:translateY(-1px); opacity:.95}
-    .btn.primary{background:linear-gradient(180deg, var(--brand), var(--orange)); border-color:rgba(255,255,255,.08); color:#fff; font-weight:700}
+    .btn.primary{background:linear-gradient(120deg, var(--accent-2), var(--accent) 55%, #ff5a1a); border-color:rgba(255,255,255,.18); color:#050505; font-weight:700}
     .btn.link{background:transparent}
     .hero{padding:72px 0 24px; display:grid; grid-template-columns:1.05fr .95fr; gap:28px; align-items:center}
     .eyebrow{display:inline-flex; gap:8px; align-items:center; font-size:13px; color:var(--muted); background:rgba(255,255,255,.04); padding:6px 10px; border:1px solid var(--stroke); border-radius:999px}
@@ -48,9 +46,9 @@
     .lead{font-size: clamp(16px, 2vw, 20px); color:#e9e9ff}
     .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin:18px 0 8px}
     .sub-cta{font-size:13.5px; color:var(--muted)}
-    .device{position:relative; background:linear-gradient(180deg, #151526, #0f0f19); border:1px solid var(--stroke); border-radius:28px; padding:22px; box-shadow:0 25px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04) inset}
+    .device{position:relative; background:linear-gradient(180deg, #101010, #0b0b0f); border:1px solid var(--stroke); border-radius:28px; padding:22px; box-shadow:0 25px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06) inset}
     .phone-top{height:10px; width:120px; border-radius:999px; background:#0a0a12; border:1px solid var(--stroke); margin:0 auto 18px}
-    .preview-card{background:linear-gradient(180deg, #17172a, #121223); border:1px solid var(--stroke); border-radius:16px; padding:16px; margin:10px 0 0; box-shadow:var(--shadow)}
+    .preview-card{background:linear-gradient(180deg, #111, #0c0c10); border:1px solid var(--stroke); border-radius:16px; padding:16px; margin:10px 0 0; box-shadow:var(--shadow)}
     .step{display:none}
     .step.active{display:block}
     .pill{display:inline-flex; padding:6px 10px; background:rgba(255,122,26,.12); border:1px solid rgba(255,122,26,.35); border-radius:999px; font-size:12px; color:#ffd7b3}
@@ -61,8 +59,8 @@
     section{padding:38px 0}
     .card{background:var(--panel); border:1px solid var(--stroke); border-radius:16px; padding:20px; box-shadow:var(--shadow)}
     .pricing .plans{display:grid; grid-template-columns:1fr; gap:16px; max-width:820px; margin:0 auto}
-    .plan{position:relative; padding:22px; border-radius:16px; border:1px solid var(--stroke); background:linear-gradient(180deg, #151526, #0f0f19)}
-    .plan .most-popular{position:absolute; top:-10px; left:18px; background:linear-gradient(90deg, var(--orange), var(--brand)); color:#08080d; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; box-shadow:0 6px 20px rgba(255,122,26,.35)}
+    .plan{position:relative; padding:22px; border-radius:16px; border:1px solid var(--stroke); background:linear-gradient(180deg, #111, #0c0c10)}
+    .plan .most-popular{position:absolute; top:-10px; left:18px; background:linear-gradient(120deg, var(--accent-2), var(--accent)); color:#050505; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; box-shadow:0 6px 20px rgba(255,122,26,.35)}
     .plan ul{margin:10px 0 0; padding:0 0 0 16px; color:#e6e6ff}
     .price{font-size:32px; font-weight:700}
     .price small{font-size:14px; color:var(--muted)}
@@ -78,7 +76,7 @@
     }
     /* simple inputs */
     input[type="text"], input[type="date"]{
-      width:100%; padding:12px 12px; border-radius:12px; border:1px solid var(--stroke); background:#0d0d16; color:var(--text)
+      width:100%; padding:12px 12px; border-radius:12px; border:1px solid var(--stroke); background:#0b0b0f; color:var(--text)
     }
     .row{display:flex; gap:10px; flex-wrap:wrap}
     .badge{display:inline-flex; gap:6px; align-items:center; font-size:12px; padding:6px 8px; border:1px solid var(--stroke); border-radius:999px; background:rgba(255,255,255,.04)}
@@ -86,7 +84,7 @@
     .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
     .chip{padding:8px 12px; border-radius:12px; border:1px solid var(--stroke); background:rgba(255,255,255,.03); color:var(--text); cursor:pointer; transition:opacity .2s, transform .2s}
     .chip:hover{opacity:.9; transform:translateY(-1px)}
-    .chip.active{border-color:var(--orange); box-shadow:0 6px 20px rgba(255,122,26,.25); background:rgba(255,122,26,.12)}
+    .chip.active{border-color:var(--accent); box-shadow:0 6px 20px rgba(255,122,26,.25); background:rgba(255,122,26,.12)}
   </style>
 </head>
 <body>
