@@ -50,7 +50,16 @@
     .pricing-panel{width:100%;max-width:1320px;margin:0 auto}
     @media(min-width:980px){.pricing-panel .card{position:sticky;top:96px}}
     .field{display:flex;flex-direction:column;gap:6px}
-    input[type=email]{background:#0c0c0c;color:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;outline:none}
+    input, select, textarea{background:#0c0c0c;color:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;outline:none;font:inherit}
+    input::placeholder, textarea::placeholder{color:rgba(255,255,255,0.6)}
+    textarea{resize:vertical;min-height:96px}
+    .stat-card{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,0.03)}
+    .stat-card h3{margin:0;font-size:16px}
+    .stat-card .stat-number{font-size:26px;font-weight:700;color:var(--accent)}
+    .stat-card .stat-detail{color:var(--muted);font-size:13px}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:var(--pill);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted)}
+    .demo-grid{display:grid;gap:12px}
+    @media(min-width:720px){.demo-grid.two-col{grid-template-columns:repeat(2,minmax(0,1fr))}}
     .plan-eyebrow{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
     .plan-eyebrow strong{color:var(--text)}
     .plan-list{display:flex;flex-direction:column;gap:12px;margin:16px 0}
@@ -279,7 +288,48 @@
         </aside>
         </section>
 
-        <div class="info-grid" style="margin-top:32px;" id="overview">
+          <section id="todays-energy" class="card" style="margin-top:26px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+              <div>
+                <h2>Today’s Energy — Demo</h2>
+                <div class="tiny" style="margin-top:4px;">Guide guests through a mini reading. Collect the essentials, calculate their Life Path, and give them a quick snapshot.</div>
+              </div>
+              <div class="pill">✨ Interactive form</div>
+            </div>
+
+            <form id="energyForm" class="demo-grid two-col" style="margin-top:14px;" onsubmit="return handleEnergyDemo(event)">
+              <label class="field"><span class="muted">Full name</span><input type="text" id="fullName" placeholder="Alex Taylor" required></label>
+              <label class="field"><span class="muted">Phone</span><input type="tel" id="phone" placeholder="(555) 123-4567" required></label>
+              <label class="field"><span class="muted">Email</span><input type="email" id="energyEmail" placeholder="you@domain.com" required></label>
+              <label class="field"><span class="muted">Birthdate</span><input type="date" id="birthdate" required></label>
+              <label class="field"><span class="muted">Birth location</span><input type="text" id="birthLocation" placeholder="City, Country" required></label>
+              <label class="field"><span class="muted">Birth time (optional)</span><input type="time" id="birthTime" placeholder="12:00"></label>
+              <label class="field" style="grid-column:1/-1;"><span class="muted">Anything we should know?</span><textarea id="extraDetails" placeholder="Intentions, focus areas, or relationship context."></textarea></label>
+              <button class="btn primary" type="submit" style="grid-column:1/-1;justify-content:center;">Generate my reading</button>
+            </form>
+
+            <div id="energyResults" class="demo-grid two-col" style="margin-top:14px;" aria-live="polite">
+              <div class="stat-card">
+                <h3>Life Path</h3>
+                <div class="stat-number" id="lifePathNumber">—</div>
+                <div class="stat-detail" id="lifePathDetail">Enter a birthday to calculate your core number.</div>
+              </div>
+              <div class="stat-card">
+                <h3>Birth Chart Snapshot</h3>
+                <div class="stat-detail" id="birthChartDetail">We’ll outline your Sun sign focus and a quick mantra.</div>
+              </div>
+              <div class="stat-card">
+                <h3>Tip for this birthday</h3>
+                <div class="stat-detail" id="birthdayTip">Practical guidance appears here after you submit.</div>
+              </div>
+              <div class="stat-card">
+                <h3>Inspiring match &amp; lucky number</h3>
+                <div class="stat-detail" id="famousAndLucky">See who shares your date and the number to lean on today.</div>
+              </div>
+            </div>
+          </section>
+
+          <div class="info-grid" style="margin-top:32px;" id="overview">
           <div class="card">
             <h2>What’s new</h2>
             <div class="tiny" style="margin-top:4px;">November 2025 — Compatibility Map, improved Numerology charts, and a refreshed Daily Guidance feed.</div>
@@ -380,8 +430,167 @@
         link.addEventListener('click', () => setMenuState(false));
       });
     }
-    window.dataLayer = window.dataLayer || [];
-    const logEl = document.getElementById('log');
+      window.dataLayer = window.dataLayer || [];
+      const energyResults = document.getElementById('energyResults');
+      const lifePathNumberEl = document.getElementById('lifePathNumber');
+      const lifePathDetailEl = document.getElementById('lifePathDetail');
+      const birthChartDetailEl = document.getElementById('birthChartDetail');
+      const birthdayTipEl = document.getElementById('birthdayTip');
+      const famousAndLuckyEl = document.getElementById('famousAndLucky');
+
+      function reduceNumber(total) {
+        const masterNumbers = [11, 22, 33];
+        while (total > 9 && !masterNumbers.includes(total)) {
+          total = total
+            .toString()
+            .split('')
+            .reduce((acc, digit) => acc + Number(digit), 0);
+        }
+        return total;
+      }
+
+      function calculateLifePath(date) {
+        const parts = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+          .map((v) => v.toString().split('').reduce((acc, digit) => acc + Number(digit), 0))
+          .reduce((acc, segment) => acc + reduceNumber(segment), 0);
+        return reduceNumber(parts);
+      }
+
+      function getZodiac(month, day) {
+        const signs = [
+          { sign: 'Capricorn', start: [12, 22], end: [1, 19], element: 'Earth', focus: 'steady growth' },
+          { sign: 'Aquarius', start: [1, 20], end: [2, 18], element: 'Air', focus: 'innovation' },
+          { sign: 'Pisces', start: [2, 19], end: [3, 20], element: 'Water', focus: 'intuition' },
+          { sign: 'Aries', start: [3, 21], end: [4, 19], element: 'Fire', focus: 'momentum' },
+          { sign: 'Taurus', start: [4, 20], end: [5, 20], element: 'Earth', focus: 'stability' },
+          { sign: 'Gemini', start: [5, 21], end: [6, 20], element: 'Air', focus: 'curiosity' },
+          { sign: 'Cancer', start: [6, 21], end: [7, 22], element: 'Water', focus: 'nurturing' },
+          { sign: 'Leo', start: [7, 23], end: [8, 22], element: 'Fire', focus: 'radiance' },
+          { sign: 'Virgo', start: [8, 23], end: [9, 22], element: 'Earth', focus: 'refinement' },
+          { sign: 'Libra', start: [9, 23], end: [10, 22], element: 'Air', focus: 'balance' },
+          { sign: 'Scorpio', start: [10, 23], end: [11, 21], element: 'Water', focus: 'depth' },
+          { sign: 'Sagittarius', start: [11, 22], end: [12, 21], element: 'Fire', focus: 'exploration' }
+        ];
+        const isAfter = (m, d, boundary) => m > boundary[0] || (m === boundary[0] && d >= boundary[1]);
+        const isBefore = (m, d, boundary) => m < boundary[0] || (m === boundary[0] && d <= boundary[1]);
+        const match = signs.find((s) => isAfter(month, day, s.start) && isBefore(month, day, s.end));
+        return match || signs[0];
+      }
+
+      const lifePathTips = {
+        1: 'Lead with clarity. Protect time for the bold move you keep postponing.',
+        2: 'Listen twice before acting. Collaboration and patience bring the win today.',
+        3: 'Create something playful—a note, a sketch, a message. Joy sparks momentum.',
+        4: 'Simplify your systems. One tidy list or ritual will calm the noise.',
+        5: 'Change refreshes you. Take a different route or swap one habit to feel free.',
+        6: 'Be the anchor for someone close, but set one boundary to protect your own energy.',
+        7: 'Carve out reflection time. Insight arrives when you unplug and observe.',
+        8: 'Negotiate from confidence. Money and influence respond to clear asks.',
+        9: 'Release what’s stale. Closure today opens room for the next chapter.',
+        11: 'Follow the intuitive nudge—you’re tuned in. Keep notes on what repeats.',
+        22: 'Think big but build simply. One tangible step grounds the master vision.',
+        33: 'Lead with kindness. A compassionate gesture multiplies your reach today.'
+      };
+
+      const famousBirthdays = {
+        '1-17': { name: 'Michelle Obama', date: 'January 17' },
+        '2-11': { name: 'Jennifer Aniston', date: 'February 11' },
+        '3-14': { name: 'Albert Einstein', date: 'March 14' },
+        '4-15': { name: 'Leonardo da Vinci', date: 'April 15' },
+        '5-6': { name: 'George Clooney', date: 'May 6' },
+        '6-16': { name: 'Tupac Shakur', date: 'June 16' },
+        '7-3': { name: 'Franz Kafka', date: 'July 3' },
+        '8-4': { name: 'Barack Obama', date: 'August 4' },
+        '9-12': { name: 'Yao Ming', date: 'September 12' },
+        '10-28': { name: 'Bill Gates', date: 'October 28' },
+        '11-7': { name: 'Marie Curie', date: 'November 7' },
+        '12-13': { name: 'Taylor Swift', date: 'December 13' }
+      };
+
+      const monthFallbacks = {
+        1: { name: 'Oprah Winfrey', date: 'January 29' },
+        2: { name: 'Rihanna', date: 'February 20' },
+        3: { name: 'Ruth Bader Ginsburg', date: 'March 15' },
+        4: { name: 'Maya Angelou', date: 'April 4' },
+        5: { name: 'Adele', date: 'May 5' },
+        6: { name: 'Paul McCartney', date: 'June 18' },
+        7: { name: 'Frida Kahlo', date: 'July 6' },
+        8: { name: 'Michael Jackson', date: 'August 29' },
+        9: { name: 'Beyoncé', date: 'September 4' },
+        10: { name: 'Kamala Harris', date: 'October 20' },
+        11: { name: 'Gordon Ramsay', date: 'November 8' },
+        12: { name: 'Steven Spielberg', date: 'December 18' }
+      };
+
+      function formatDateLabel(date) {
+        return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+      }
+
+      function getFamousBirthday(month, day) {
+        const key = `${month}-${day}`;
+        if (famousBirthdays[key]) return famousBirthdays[key];
+        const fallback = monthFallbacks[month] || { name: 'A notable creator', date: formatDateLabel(new Date(2000, month - 1, 1)) };
+        return { ...fallback, note: 'Same month vibe' };
+      }
+
+      function buildBirthChart(date, location, lifePath) {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const sign = getZodiac(month, day);
+        const mantras = {
+          Fire: 'Fuel action with purpose.',
+          Earth: 'Trust slow roots for steady bloom.',
+          Air: 'Share the idea before it fades.',
+          Water: 'Feel it fully, then flow forward.'
+        };
+        const focusLine = `${sign.sign} (${sign.element}) — ${sign.focus}.`;
+        const mantra = mantras[sign.element] || 'Stay centered and responsive.';
+        const locationLine = location ? `Set the scene in ${location} to ground this reading.` : 'Anchor the moment by naming where you are.';
+        return `${focusLine} ${mantra} ${locationLine} Life Path ${lifePath} shapes your rhythm today.`;
+      }
+
+      function getLuckyNumber(date, fullName) {
+        const base = reduceNumber(date.getDate() + (date.getMonth() + 1));
+        const nameValue = fullName
+          .toUpperCase()
+          .replace(/[^A-Z]/g, '')
+          .split('')
+          .reduce((acc, char) => acc + ((char.charCodeAt(0) - 64) % 9 || 9), 0);
+        return reduceNumber(base + nameValue);
+      }
+
+      function handleEnergyDemo(e) {
+        e.preventDefault();
+        const birthInput = document.getElementById('birthdate').value;
+        const fullName = (document.getElementById('fullName') || {}).value || 'You';
+        const location = (document.getElementById('birthLocation') || {}).value;
+        const birthDate = new Date(birthInput + 'T00:00:00');
+        if (!birthInput || isNaN(birthDate)) {
+          alert('Please add a valid birthdate to generate your reading.');
+          return false;
+        }
+
+        const lifePath = calculateLifePath(birthDate);
+        const sign = getZodiac(birthDate.getMonth() + 1, birthDate.getDate());
+        const famous = getFamousBirthday(birthDate.getMonth() + 1, birthDate.getDate());
+        const luckyNumber = getLuckyNumber(birthDate, fullName);
+        const tip = lifePathTips[lifePath] || 'Trust your instincts and make one intentional move today.';
+        const chart = buildBirthChart(birthDate, location, lifePath);
+
+        if (lifePathNumberEl) lifePathNumberEl.textContent = lifePath;
+        if (lifePathDetailEl) lifePathDetailEl.textContent = `Your ${formatDateLabel(birthDate)} path carries ${sign.element.toLowerCase()} energy with a ${sign.focus} theme.`;
+        if (birthChartDetailEl) birthChartDetailEl.textContent = chart;
+        if (birthdayTipEl) birthdayTipEl.textContent = tip;
+        if (famousAndLuckyEl) {
+          const fameNote = famous.note ? `${famous.name} (born ${famous.date}, same month resonance)` : `${famous.name} — born ${famous.date}`;
+          famousAndLuckyEl.textContent = `${fameNote}. Lucky number to lean on: ${luckyNumber}.`;
+        }
+
+        energyResults?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return false;
+      }
+
+      const logEl = document.getElementById('log');
     function log(msg, obj) {
       const line = document.createElement('div');
       line.textContent = msg + (obj ? ' ' + JSON.stringify(obj) : '');
