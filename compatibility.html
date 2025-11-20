@@ -4,42 +4,43 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cue — Compatibility Calculator • CUE+</title>
-  <meta name="description" content="Run a compatibility check and unlock deeper reports with CUE+. Cue combines numerology + astrology to surface high‑probability windows for relationships, decisions, and timing.">
+  <meta name="description" content="Try a free compatibility check. Cue combines numerology + astrology like never before to unlock your high‑probability windows for relationships, decisions, and timing.">
   <meta property="og:title" content="Cue — Compatibility Calculator">
-  <meta property="og:description" content="Check compatibility and unlock full reports with CUE+.">
+  <meta property="og:description" content="Try a free compatibility check, then unlock full reports with CUE+.">
   <meta name="theme-color" content="#FF7A1A">
   <style>
     :root{
-      --bg:#080808;
-      --surface:rgba(255,255,255,0.06);
-      --panel:#0f0f12;
-      --muted:rgba(255,255,255,0.72);
-      --text:#f8f8f8;
-      --accent:#ff7a1a;
-      --accent-2:#ffb240;
+      --bg:#0b0b12;
+      --panel:#11111a;
+      --muted:#c8c8d4;
+      --text:#f8f8ff;
+      --brand:#6b5bff;      /* purple */
+      --brand-2:#b96bff;    /* violet */
+      --orange:#ff7a1a;     /* accent */
       --ok:#22c55e;
       --warn:#f59e0b;
       --bad:#ef4444;
-      --stroke:rgba(255,255,255,.12);
-      --shadow:0 16px 40px rgba(0,0,0,.4);
+      --stroke:rgba(255,255,255,.08);
+      --shadow:0 10px 30px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.04) inset;
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:
-      radial-gradient(circle at 20% 20%, rgba(255,122,26,.08), transparent 25%),
-      radial-gradient(circle at 80% 0%, rgba(255,122,26,.05), transparent 30%),
+      radial-gradient(1200px 800px at 80% -10%, rgba(107,91,255,.22), transparent 60%),
+      radial-gradient(900px 700px at 10% -20%, rgba(255,122,26,.18), transparent 60%),
+      radial-gradient(800px 600px at -10% 10%, rgba(185,107,255,.12), transparent 60%),
       var(--bg);
       color:var(--text);
-      font:16px/1.5 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif}
+      font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji}
     a{color:var(--text); text-decoration:none}
     .wrap{max-width:1100px; margin:0 auto; padding:0 20px}
-    header{position:sticky; top:0; z-index:50; backdrop-filter:blur(8px); background:rgba(0,0,0,.72); border-bottom:1px solid var(--stroke)}
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.2) blur(8px); background:linear-gradient(to bottom, rgba(11,11,18,.9), rgba(11,11,18,.65)); border-bottom:1px solid var(--stroke)}
     .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
     .logo{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.3px}
-    .logo-badge{width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg, #ff9b1f, var(--accent) 50%, #ff5a1a); display:grid; place-items:center; box-shadow:var(--shadow)}
+    .logo-badge{width:32px; height:32px; border-radius:10px; background:conic-gradient(from 210deg, var(--brand), var(--orange), var(--brand)); display:grid; place-items:center; box-shadow:0 8px 24px rgba(107,91,255,.35), 0 8px 24px rgba(255,122,26,.25)}
     .logo-badge svg{filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
-    .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 18px; border-radius:12px; border:1px solid var(--stroke); background:linear-gradient(180deg, #111, #0c0c10); box-shadow:var(--shadow); transition:.25s}
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 18px; border-radius:12px; border:1px solid var(--stroke); background:linear-gradient(180deg, #1c1c29, #161622); box-shadow:var(--shadow); transition:.25s}
     .btn:hover{transform:translateY(-1px); opacity:.95}
-    .btn.primary{background:linear-gradient(120deg, var(--accent-2), var(--accent) 55%, #ff5a1a); border-color:rgba(255,255,255,.18); color:#050505; font-weight:700}
+    .btn.primary{background:linear-gradient(180deg, var(--brand), var(--orange)); border-color:rgba(255,255,255,.08); color:#fff; font-weight:700}
     .btn.link{background:transparent}
     .hero{padding:72px 0 24px; display:grid; grid-template-columns:1.05fr .95fr; gap:28px; align-items:center}
     .eyebrow{display:inline-flex; gap:8px; align-items:center; font-size:13px; color:var(--muted); background:rgba(255,255,255,.04); padding:6px 10px; border:1px solid var(--stroke); border-radius:999px}
@@ -47,11 +48,9 @@
     .lead{font-size: clamp(16px, 2vw, 20px); color:#e9e9ff}
     .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin:18px 0 8px}
     .sub-cta{font-size:13.5px; color:var(--muted)}
-    .device{position:relative; background:linear-gradient(180deg, #101010, #0b0b0f); border:1px solid var(--stroke); border-radius:28px; padding:22px; box-shadow:0 25px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06) inset}
+    .device{position:relative; background:linear-gradient(180deg, #151526, #0f0f19); border:1px solid var(--stroke); border-radius:28px; padding:22px; box-shadow:0 25px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04) inset}
     .phone-top{height:10px; width:120px; border-radius:999px; background:#0a0a12; border:1px solid var(--stroke); margin:0 auto 18px}
-    .preview-card{background:linear-gradient(180deg, #0f0f12, #0b0b0f); border:1px solid var(--stroke); border-radius:16px; padding:16px; margin:10px 0 0; box-shadow:var(--shadow)}
-    .step{display:none}
-    .step.active{display:block}
+    .preview-card{background:linear-gradient(180deg, #17172a, #121223); border:1px solid var(--stroke); border-radius:16px; padding:16px; margin:10px 0 0; box-shadow:var(--shadow)}
     .pill{display:inline-flex; padding:6px 10px; background:rgba(255,122,26,.12); border:1px solid rgba(255,122,26,.35); border-radius:999px; font-size:12px; color:#ffd7b3}
     .mini{font-size:12.5px; color:var(--muted)}
     .ratings{display:flex; gap:14px; align-items:center; color:#e8e8ff; padding:12px 14px; background:rgba(255,255,255,.04); border:1px solid var(--stroke); border-radius:12px; margin-top:10px}
@@ -60,8 +59,8 @@
     section{padding:38px 0}
     .card{background:var(--panel); border:1px solid var(--stroke); border-radius:16px; padding:20px; box-shadow:var(--shadow)}
     .pricing .plans{display:grid; grid-template-columns:1fr; gap:16px; max-width:820px; margin:0 auto}
-    .plan{position:relative; padding:22px; border-radius:16px; border:1px solid var(--stroke); background:linear-gradient(180deg, #111, #0c0c10)}
-    .plan .most-popular{position:absolute; top:-10px; left:18px; background:linear-gradient(120deg, var(--accent-2), var(--accent)); color:#050505; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; box-shadow:0 6px 20px rgba(255,122,26,.35)}
+    .plan{position:relative; padding:22px; border-radius:16px; border:1px solid var(--stroke); background:linear-gradient(180deg, #151526, #0f0f19)}
+    .plan .most-popular{position:absolute; top:-10px; left:18px; background:linear-gradient(90deg, var(--orange), var(--brand)); color:#08080d; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; box-shadow:0 6px 20px rgba(255,122,26,.35)}
     .plan ul{margin:10px 0 0; padding:0 0 0 16px; color:#e6e6ff}
     .price{font-size:32px; font-weight:700}
     .price small{font-size:14px; color:var(--muted)}
@@ -77,15 +76,11 @@
     }
     /* simple inputs */
     input[type="text"], input[type="date"]{
-      width:100%; padding:12px 12px; border-radius:12px; border:1px solid var(--stroke); background:#0b0b0f; color:var(--text)
+      width:100%; padding:12px 12px; border-radius:12px; border:1px solid var(--stroke); background:#0d0d16; color:var(--text)
     }
     .row{display:flex; gap:10px; flex-wrap:wrap}
     .badge{display:inline-flex; gap:6px; align-items:center; font-size:12px; padding:6px 8px; border:1px solid var(--stroke); border-radius:999px; background:rgba(255,255,255,.04)}
     .flag{font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--stroke)}
-    .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
-    .chip{padding:8px 12px; border-radius:12px; border:1px solid var(--stroke); background:rgba(255,255,255,.03); color:var(--text); cursor:pointer; transition:opacity .2s, transform .2s}
-    .chip:hover{opacity:.9; transform:translateY(-1px)}
-    .chip.active{border-color:var(--accent); box-shadow:0 6px 20px rgba(255,122,26,.25); background:rgba(255,122,26,.12)}
   </style>
 </head>
 <body>
@@ -118,12 +113,12 @@
         <h1>Calculate compatibility. Make better moves on the right days.</h1>
         <p class="lead">Cue app combines numerology and astrology like never before to unlock your <strong>high‑probability windows</strong> for relationships, decisions, and timing.</p>
         <div class="cta-row">
-          <a class="btn primary" id="btnTry" href="#demo">Begin compatibility check</a>
+          <a class="btn primary" id="btnTry" href="#demo">Try a free compatibility check</a>
           <a class="btn" id="btnStartPlus" href="#pricing">Start CUE+ — $35/mo</a>
         </div>
         <div class="sub-cta">Not a horoscope — it’s decision timing and compatibility. Cancel anytime.</div>
         <div class="links" style="margin-top:6px">
-          <a href="#demo">Compatibility check</a>
+          <a href="#demo">Compatibility demo</a>
           <a href="#why">How it works</a>
           <a href="#pricing">CUE+ plan</a>
         </div>
@@ -136,66 +131,37 @@
       <div class="device" aria-label="Compatibility preview">
         <div class="phone-top"></div>
         <div class="preview-card" id="demo">
-          <div class="pill">Compatibility check</div>
-          <h3 style="margin:8px 0 6px" id="stepTitle">Check your compatibility with someone</h3>
-          <p class="mini" id="stepHint">Step 1 of 2: add your details so we can personalize your guidance and follow up.</p>
-
-          <div class="step active" id="stepWelcome">
-            <div class="row">
-              <div style="flex:1">
-                <label class="mini" for="fullName">Your name</label>
-                <input type="text" id="fullName" placeholder="Full name" autocomplete="name" required>
-              </div>
+          <div class="pill">Free demo — 1 check</div>
+          <h3 style="margin:8px 0 10px">Compatibility check</h3>
+          <div class="row">
+            <div style="flex:1">
+              <label class="mini" for="you">Your birth date</label>
+              <input type="date" id="you" placeholder="MM/DD/YYYY">
             </div>
-            <div class="row" style="margin-top:10px">
-              <div style="flex:1">
-                <label class="mini" for="email">Email</label>
-                <input type="email" id="email" placeholder="you@email.com" autocomplete="email" required>
-              </div>
-              <div style="flex:1">
-                <label class="mini" for="phone">Phone</label>
-                <input type="tel" id="phone" placeholder="(000) 000-0000" autocomplete="tel" required>
-              </div>
-            </div>
-            <div class="row" style="margin-top:12px; justify-content:space-between; align-items:center">
-              <span class="mini">We’ll use this to deliver your compatibility readout.</span>
-              <a class="btn primary" id="btnBegin">Continue to birth dates</a>
+            <div style="flex:1">
+              <label class="mini" for="them">Their birth date</label>
+              <input type="date" id="them" placeholder="MM/DD/YYYY">
             </div>
           </div>
-
-          <div class="step" id="stepDetails">
-            <div class="mini" style="margin-bottom:6px">Step 2 of 2</div>
-            <div class="row">
-              <div style="flex:1">
-                <label class="mini" for="you">Your birth date</label>
-                <input type="date" id="you" placeholder="MM/DD/YYYY">
-              </div>
-              <div style="flex:1">
-                <label class="mini" for="them">Their birth date</label>
-                <input type="date" id="them" placeholder="MM/DD/YYYY">
-              </div>
+          <div class="row" style="margin-top:10px">
+            <div style="flex:1">
+              <label class="mini" for="name">Optional: name / brand</label>
+              <input type="text" id="name" placeholder="(e.g., Taylor · Nike · NYC)">
             </div>
-            <div style="margin-top:10px">
-              <label class="mini">Who are you checking?</label>
-              <div class="chips" id="relationshipChips"></div>
-            </div>
-            <div class="row" style="margin-top:12px; justify-content:space-between; align-items:center">
-              <span class="mini">Energy-based guidance only; we don’t store your details.</span>
-              <a class="btn" id="btnCheck">See compatibility</a>
-            </div>
+            <div><a class="btn" id="btnCheck">Check</a></div>
           </div>
-
           <div id="demoResult" class="card" style="margin-top:12px; display:none">
             <div class="row" style="justify-content:space-between; align-items:center">
               <div>
-                <div class="mini">Compatibility outlook</div>
+                <div class="mini">Match score</div>
                 <div id="score" style="font-size:26px; font-weight:700">—</div>
               </div>
-              <div class="badge" id="badge">Ready</div>
+              <div class="badge" id="badge">Preview</div>
             </div>
             <p id="summary" style="margin:10px 0 0">—</p>
+            <p class="mini" style="margin:8px 0 0">This is a preview demo. Unlock full compatibility reports, filters, and top matches with CUE+.</p>
             <div class="row" style="margin-top:10px">
-              <a class="btn primary" href="#pricing">Unlock full report with CUE+</a>
+              <a class="btn primary" href="#pricing">Get CUE+ for full report</a>
               <span class="mini">Includes calendar timing + 26,000+ cues</span>
             </div>
           </div>
@@ -218,7 +184,6 @@
     <section id="pricing" class="pricing">
       <div class="wrap">
         <h2>Unlock everything with CUE+</h2>
-        <p class="mini">See all plans if you want to compare.</p>
         <div class="plans">
           <div class="plan">
             <div class="most-popular">Most popular</div>
@@ -226,6 +191,7 @@
             <div class="price">$35 <small>/ month</small></div>
             <ul>
               <li><strong>Your Daily Advantage — The Complete Energy System</strong></li>
+              <li>Every payment builds toward Lifetime — own your progress while unlocking full CUE access.</li>
               <li>Unlock everything: Search, Chats, Compatibility Filters, Top Matches, and <strong>26,000+ Cues</strong>.</li>
               <li>Get daily insights for personal, relationship, and business timing — powered by structured data.</li>
               <li>Access exclusive research and insights from Gary Grinberg and the CUE team.</li>
@@ -247,14 +213,10 @@
                 <li>Understand &amp; Study Imprinted Energy—the hidden key to unlocking better alignment, timing, decisions, &amp; relationships.</li>
                 <li>Get daily energy guidance—use it to align your actions with the day’s strengths.</li>
                 <li>Search 1,000+ Popular Cues—birthdays, brands &amp; more; unlock all with CUE+.</li>
-                <li>Perfect starting point—upgrade to CUE+ anytime.</li>
-                <li><strong>Smart Move:</strong> Start with Basics &amp; upgrade to CUE+ anytime.</li>
+                <li>Perfect starting point—and all payments build credits toward CUE+ when you upgrade.</li>
+                <li><strong>Smart Move:</strong> Start with Basics &amp; upgrade to CUE+ anytime—your payment counts toward Lifetime status.</li>
                 <li><em class="mini">Note:</em> Full compatibility reports &amp; advanced filters are in CUE+.</li>
               </ul>
-              <div class="row" style="margin-top:12px; align-items:center; justify-content:space-between">
-                <a class="btn" href="#start">Start The Basics</a>
-                <span class="mini">Cancel anytime via App Store / Google Play.</span>
-              </div>
             </div>
 
             <div class="card" style="margin-top:10px">
@@ -267,15 +229,11 @@
                 <li>Great for quick insights and testing how the system works.</li>
                 <li>To unlock the full CUE experience — with deeper insights, complete reports, and access to every Cue — upgrade to CUE+.</li>
               </ul>
-              <div class="row" style="margin-top:12px; align-items:center; justify-content:space-between">
-                <a class="btn" href="#start">Start CUEchats</a>
-                <span class="mini">Upgrade to CUE+ anytime.</span>
-              </div>
             </div>
           </details>
         </div>
 
-        <p class="mini" style="margin-top:10px">Compatibility guidance on this page is illustrative and not a guarantee of outcomes. Use for informational/entertainment purposes.</p>
+        <p class="mini" style="margin-top:10px">Compatibility demo on this page is illustrative and not a guarantee of outcomes. Use for informational/entertainment purposes.</p>
       </div>
     </section>
 
@@ -323,46 +281,21 @@
     const year = document.getElementById('year'); year.textContent = new Date().getFullYear();
     const you = document.getElementById('you');
     const them = document.getElementById('them');
+    const nameInput = document.getElementById('name');
     const btnCheck = document.getElementById('btnCheck');
     const demoResult = document.getElementById('demoResult');
     const scoreEl = document.getElementById('score');
     const badge = document.getElementById('badge');
     const summary = document.getElementById('summary');
-    const stepWelcome = document.getElementById('stepWelcome');
-    const stepDetails = document.getElementById('stepDetails');
-    const stepTitle = document.getElementById('stepTitle');
-    const stepHint = document.getElementById('stepHint');
-    const btnBegin = document.getElementById('btnBegin');
-    const fullName = document.getElementById('fullName');
-    const email = document.getElementById('email');
-    const phone = document.getElementById('phone');
-    const relationshipChips = document.getElementById('relationshipChips');
-    const relationshipTypes = [
-      'Friend','Family','Spouse / Girlfriend','Business partner','Famous person / Celebrity','Athlete','Brand','Business owner'
-    ];
-    let activeRelationship = relationshipTypes[0];
 
-    relationshipTypes.forEach(type => {
-      const chip = document.createElement('button');
-      chip.type = 'button';
-      chip.className = 'chip' + (type === activeRelationship ? ' active' : '');
-      chip.textContent = type;
-      chip.addEventListener('click', ()=>{
-        relationshipChips.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-        chip.classList.add('active');
-        activeRelationship = type;
-      });
-      relationshipChips.appendChild(chip);
-    });
-
-    function scoreFromDates(d1, d2, context){
-      // Deterministic pseudo-score for illustrative purposes only
+    function scoreFromDates(d1, d2, extra){
+      // Deterministic pseudo-score for demo purposes only
       const a = d1 ? Date.parse(d1) : 0;
       const b = d2 ? Date.parse(d2) : 0;
       const seed = a ^ b;
-      const contextHash = (context||'').split('').reduce((acc,c)=>acc + c.charCodeAt(0), 0);
+      const nameHash = (extra||'').split('').reduce((acc,c)=>acc + c.charCodeAt(0), 0);
       const raw = (seed % 100 + 100) % 100;
-      return (raw + (contextHash % 17)) % 100;
+      return (raw + (nameHash % 17)) % 100;
     }
 
     function labelFor(v){
@@ -371,35 +304,20 @@
       return ['Challenging','var(--bad)'];
     }
 
-    function proceedToDetails(){
-      if(!fullName.value.trim() || !email.value.trim() || !phone.value.trim()){
-        alert('Please enter your name, email, and phone to continue.');
-        return;
-      }
-      stepWelcome.classList.remove('active');
-      stepDetails.classList.add('active');
-      stepTitle.textContent = 'Who are you checking?';
-      stepHint.textContent = 'Add both birth dates and pick the relationship to get tailored compatibility guidance.';
-      stepDetails.scrollIntoView({behavior:'smooth', block:'center'});
-    }
-
-    btnBegin.addEventListener('click', proceedToDetails);
-
     btnCheck.addEventListener('click', ()=>{
-      if(!you.value || !them.value){
-        alert('Please add both birth dates to see compatibility.');
-        return;
-      }
-      const s = scoreFromDates(you.value, them.value, activeRelationship + fullName.value + email.value);
+      const s = scoreFromDates(you.value, them.value, nameInput.value);
       demoResult.style.display = 'block';
       scoreEl.textContent = s;
       const [label,color] = labelFor(s);
       badge.style.color = color; badge.textContent = label;
       let blurb;
-      if(s>=70) blurb = `Strong synergy for ${activeRelationship.toLowerCase()}. Plan important conversations or first steps during favorable days.`;
-      else if(s>=40) blurb = `Mixed signals for this ${activeRelationship.toLowerCase()}. Choose neutral windows for low‑stakes moves; use timing to avoid friction.`;
-      else blurb = `Choppier energy for this ${activeRelationship.toLowerCase()}. Wait for better timing or focus on low‑risk actions.`;
-      summary.textContent = `${label} outlook: ${blurb} Unlock the full compatibility report and high-probability timing with CUE+.`;
+      if(s>=70) blurb = "Strong synergy. Plan important conversations or first steps during favorable days to amplify results.";
+      else if(s>=40) blurb = "Mixed signals. Choose neutral windows for low‑stakes moves; use timing to avoid friction.";
+      else blurb = "Choppy energy. Wait for better timing or focus on low‑risk actions.";
+      const name = nameInput.value.trim();
+      const who = name ? ` with ${name}` : '';
+      summary.textContent = `Preview: Your current energy${who} trends ${label.toLowerCase()}. ${blurb}`;
+      // optional: scroll into view
       demoResult.scrollIntoView({behavior:'smooth', block:'center'});
     });
   </script>
